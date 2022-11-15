@@ -1,5 +1,4 @@
-
-defmodule PdfImageExport do
+defmodule PdfTools.ImageExport do
 
   @input_dir "./to-convert"
   @output_dir "output-images"
@@ -21,15 +20,27 @@ defmodule PdfImageExport do
     end
   end
 
-  @
-  def negate_image(img_path) do
+  def negate_image() do
     ## negate images
     #for d in ./*/ ; do (cd "$d" && magick mogrify -negate *.jpg); done
+    System.cmd("magick mogrifgy", ["-negate", "*.jpg"])
   end
 
-  def convert_mask_to_alpha(image_path, alpha_path) do
+  def convert_mask_to_alpha(image_path, alpha_path, out_path) do
     ## make alpha from two images
     #convert main.png -alpha on \( +clone -channel a -fx 0 \) +swap mask.png -composite out.png
+    System.cmd(
+      "magick convert",
+      [
+        image_path,
+        "-alpha on",
+        "\( +clone -channel a -fx 0 \)",
+        "+swap",
+        alpha_path,
+        "-composite",
+        out_path
+      ]
+    )
   end
 
 end
