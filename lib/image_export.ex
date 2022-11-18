@@ -20,9 +20,15 @@ defmodule PdfTools.ImageExport do
     end
   end
 
-  def negate_image() do
-    ## negate images
-    #for d in ./*/ ; do (cd "$d" && magick mogrify -negate *.jpg); done
+  @doc """
+    so apparently adobe saves CMYK jpg's inverted as a default; which are then
+    embedded in PDFs made by Adobe products.
+    It seems that all other tools except `libpoppler` (and thus `pdfimages`)
+    invert CMYK JPGs per default, instead of looking at the flag like poppler does.
+    So this method is here to negate JPGs if needed.
+  """
+  def negate_images_in_dir(dir) do
+    File.cd(dir)
     System.cmd("magick mogrifgy", ["-negate", "*.jpg"])
   end
 
