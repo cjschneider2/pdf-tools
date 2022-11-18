@@ -40,7 +40,7 @@ defmodule PdfTools.ImageExport do
       [
         image_path,
         "-alpha on",
-        "\( +clone -channel a -fx 0 \)",
+        "( +clone -channel a -fx 0 )",
         "+swap",
         alpha_path,
         "-composite",
