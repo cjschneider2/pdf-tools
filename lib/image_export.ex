@@ -1,6 +1,6 @@
 defmodule PdfTools.ImageExport do
 
-  @input_dir "./to-convert"
+  @input_dir "./tmp/to-convert"
   @output_dir "output-images"
 
   def get_source_files(dir \\ @input_dir) do
@@ -13,7 +13,7 @@ defmodule PdfTools.ImageExport do
     for pdf_path <- pdf_path_list do
       # setup output directory for pdf
       basename = Path.basename(pdf_path, ".pdf")
-      out_path = Path.join([".", output_dir, basename])
+      out_path = Path.join(["./tmp", output_dir, basename])
       File.mkdir_p(out_path)
       # convert
       System.cmd( "pdfimages", [ "-all", "-j", pdf_path, Path.join([out_path, basename])] )
