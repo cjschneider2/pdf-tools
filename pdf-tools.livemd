@@ -1,0 +1,35 @@
+# pdf-tools
+
+```elixir
+app_root = Path.join(__DIR__, ".")
+
+Mix.install(
+  [
+    {:pdf_tools, path: app_root, env: :dev}
+  ]
+  # config_path: Path.join(my_app_root, "config/config.exs"),
+  # lockfile: Path.join(my_app_root, "mix.lock")
+)
+
+File.cd!(app_root)
+```
+
+## Convert Files
+
+```elixir
+file_list = PdfTools.ImageExport.get_source_files()
+```
+
+```elixir
+PdfTools.ImageExport.rip_pdf_images(file_list)
+```
+
+## Modify File Masks
+
+```elixir
+zoo_path = Path.join([app_root, "output-images", "Zoo Animals"])
+zoo_images = Path.wildcard(zoo_path <> "/*.jpg")
+
+[img, mask] = 
+#PdfTools.ImageExport.convert_mask_to_alpha()
+```
