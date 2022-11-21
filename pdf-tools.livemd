@@ -14,12 +14,6 @@ Mix.install(
 File.cd!(app_root)
 ```
 
-## Setup
-
-```elixir
-
-```
-
 ## Convert Files
 
 ```elixir
@@ -38,5 +32,17 @@ zoo_images = Path.wildcard(zoo_path <> "/*.jpg")
 
 [img, mask] = Enum.take(zoo_images, 2)
 out_path = Path.join([app_root, "tmp", "output-images", "Zoo Animals"])
-PdfTools.ImageExport.convert_mask_to_alpha(img, mask, out_path <> "/merged-01.jpg")
+#PdfTools.ImageExport.convert_mask_to_alpha(img, mask, out_path <> "/merged-01.jpg")
+
+System.cmd(
+      "magick convert",
+      [
+        img,
+        "-alpha on",
+        "\( +clone -channel a -fx 0 \)",
+        "+swap",
+        alpha_path,
+        "-composite",
+        out_path
+      ]
 ```

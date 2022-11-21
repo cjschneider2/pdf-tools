@@ -34,19 +34,28 @@ defmodule PdfTools.ImageExport do
 
   def convert_mask_to_alpha(image_path, alpha_path, out_path) do
     ## make alpha from two images
-    #convert main.png -alpha on \( +clone -channel a -fx 0 \) +swap mask.png -composite out.png
+    #magick img1.jpg img1_mask.png -alpha Off -compose CopyOpacity -composite img_out.png
     System.cmd(
-      "magick convert",
+      "magick",
       [
         image_path,
-        "-alpha on",
-        "( +clone -channel a -fx 0 )",
-        "+swap",
         alpha_path,
+        "-alpha", "Off",
+        "-compose", "CopyOpacity",
         "-composite",
         out_path
       ]
     )
+  end
+
+  def dir_combine_alpha_mask(directory) do
+    full_path = Path.expand(directory)
+    File.cd(full_path)
+    Path.wildcard(full_path <> "/*")
+    |> Enum.chunk_every(2, 2, :discard)
+    |> Enum.with_index()
+    |> IO.inspect()
+    |> Enum.each(fn {[img, mask], idx} -> convert_mask_to_alpha(img, mask, "out_"<>Integer.to_string(idx)<>".png") end)
   end
 
 end
